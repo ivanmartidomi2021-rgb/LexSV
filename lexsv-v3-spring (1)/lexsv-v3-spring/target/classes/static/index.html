@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <meta name="theme-color" content="#003087"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="LexSV AI"/>
+  <meta name="description" content="Asistente Jurídico Inteligente para El Salvador"/>
+  <title>LexSV AI</title>
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <link href="css/style.css" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- ═══════════ SPLASH ═══════════ -->
+<div id="splashScreen" class="splash">
+  <div class="splash-inner">
+    <div class="splash-shield">⚖️</div>
+    <h1 class="splash-title">LexSV <span>AI</span></h1>
+    <p class="splash-sub">Asistente Jurídico Inteligente</p>
+    <div class="splash-bar"><div class="splash-fill"></div></div>
+  </div>
+</div>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="loginScreen" class="screen">
+  <div class="login-bg">
+    <div class="login-card">
+      <div class="login-logo">
+        <div class="login-icon">⚖️</div>
+        <h1>LexSV <span>AI</span></h1>
+        <p class="tagline">Asistente Jurídico · El Salvador</p>
+      </div>
+      <div class="login-form">
+        <div class="mb-3">
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+            <input type="text" id="loginUser" class="form-control" placeholder="Nombre o ID de agente"/>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+            <input type="password" id="loginPass" class="form-control" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doLogin()"/>
+          </div>
+        </div>
+        <div class="mb-4">
+          <select id="loginRole" class="form-select">
+            <option value="PNC">🚔 Policía Nacional Civil (PNC)</option>
+            <option value="FGR">⚖️ Fiscalía General (FGR)</option>
+            <option value="TRÁNSITO">🚗 Agentes de Tránsito</option>
+            <option value="FAES">🪖 Fuerzas Armadas (FAES)</option>
+            <option value="JUEZ">👨‍⚖️ Juez / Magistrado</option>
+            <option value="ABOGADO">📋 Abogado / Defensor</option>
+            <option value="ESTUDIANTE">📚 Estudiante de Derecho</option>
+          </select>
+        </div>
+        <button class="btn btn-login w-100" onclick="doLogin()">
+          <i class="bi bi-shield-lock-fill me-2"></i>Ingresar
+        </button>
+        <p class="demo-note">Demo: cualquier credencial funciona</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div id="appScreen" class="screen">
+
+  <!-- TOP BAR -->
+  <header class="top-bar">
+    <button class="icon-btn" onclick="toggleSidebar()"><i class="bi bi-list"></i></button>
+    <span class="top-logo">LexSV <span>AI</span></span>
+    <div class="top-actions">
+      <button class="icon-btn" id="voiceGlobalBtn" onclick="startVoiceGlobal()" title="Voz"><i class="bi bi-mic"></i></button>
+      <button class="icon-btn" onclick="showSection('favoritos')" title="Favoritos"><i class="bi bi-star"></i></button>
+      <button class="icon-btn" onclick="doLogout()" title="Salir"><i class="bi bi-box-arrow-right"></i></button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-profile">
+      <div class="profile-avatar" id="profileAvatar">A</div>
+      <div>
+        <div class="profile-name" id="profileName">Agente</div>
+        <div class="profile-role" id="profileRole">PNC</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" onclick="showSection('chat')" data-s="chat"><i class="bi bi-chat-dots-fill"></i><span>Chat Legal</span></a>
+      <a class="nav-item" onclick="showSection('buscar')" data-s="buscar"><i class="bi bi-search"></i><span>Buscar Leyes</span></a>
+      <a class="nav-item" onclick="showSection('comparar')" data-s="comparar"><i class="bi bi-intersect"></i><span>Comparar Leyes</span></a>
+      <a class="nav-item" onclick="showSection('resumen')" data-s="resumen"><i class="bi bi-file-text"></i><span>Resumir Ley</span></a>
+      <a class="nav-item" onclick="showSection('camara')" data-s="camara"><i class="bi bi-camera"></i><span>Escanear Doc.</span></a>
+      <a class="nav-item" onclick="showSection('emergencia')" data-s="emergencia"><i class="bi bi-exclamation-octagon-fill"></i><span>Emergencia</span></a>
+      <a class="nav-item" onclick="showSection('informes')" data-s="informes"><i class="bi bi-file-earmark-text"></i><span>Informes</span></a>
+      <a class="nav-item" onclick="showSection('favoritos')" data-s="favoritos"><i class="bi bi-star-fill"></i><span>Favoritos</span></a>
+      <a class="nav-item" onclick="showSection('historial')" data-s="historial"><i class="bi bi-clock-history"></i><span>Historial</span></a>
+      <a class="nav-item" onclick="showSection('offline')" data-s="offline"><i class="bi bi-wifi-off"></i><span>Leyes Offline</span></a>
+    </nav>
+    <div class="sidebar-footer">
+      <div id="statusDot" class="status-row"><span class="dot dot-ok"></span><small>Gemini AI activo</small></div>
+      <small class="text-muted">LexSV AI v3.0 · Iván Alberson Martínez</small>
+    </div>
+  </div>
+  <div id="overlay" class="overlay" onclick="toggleSidebar()"></div>
+
+  <!-- CONTENT -->
+  <main class="main-area">
+
+    <!-- ── 1. CHAT LEGAL ── -->
+    <section id="sec-chat" class="sec active">
+      <div class="sec-header">
+        <h2><i class="bi bi-chat-dots-fill"></i> Chat Legal Inteligente</h2>
+        <p>Consulte cualquier ley o procedimiento de El Salvador</p>
+      </div>
+      <div class="chat-wrap">
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="msg bot">
+            <div class="msg-av">⚖️</div>
+            <div class="msg-bub">
+              <p>Hola, soy <strong>LexSV AI</strong>. Especializado en legislación salvadoreña.</p>
+              <div class="quick-btns">
+                <button class="qb" onclick="sendQ('¿Qué artículo aplica para homicidio agravado?')">⚖️ Homicidio agravado</button>
+                <button class="qb" onclick="sendQ('Procedimiento para captura en flagrancia')">🔒 Captura flagrancia</button>
+                <button class="qb" onclick="sendQ('¿Cuáles son los derechos del detenido?')">📋 Derechos detenido</button>
+                <button class="qb" onclick="sendQ('Artículos sobre tráfico de drogas en El Salvador')">💊 Drogas</button>
+                <button class="qb" onclick="sendQ('¿Qué dice la LEIV sobre violencia doméstica?')">💜 LEIV</button>
+                <button class="qb" onclick="sendQ('Penas por extorsión según Código Penal')">📞 Extorsión</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chat-input-wrap">
+          <div class="chat-input-row">
+            <button class="ci-btn" id="voiceChatBtn" onclick="toggleVoiceChat()" title="Voz"><i class="bi bi-mic"></i></button>
+            <textarea id="chatTxt" class="chat-textarea" placeholder="Escriba su consulta jurídica..." rows="1" oninput="autoResize(this)" onkeydown="chatKey(event)"></textarea>
+            <button class="ci-btn ci-send" onclick="sendChat()"><i class="bi bi-send-fill"></i></button>
+          </div>
+          <div class="chat-hint"><i class="bi bi-stars"></i> Gemini AI · Legislación salvadoreña</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── 2. BUSCAR LEYES ── -->
+    <section id="sec-buscar" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-search"></i> Búsqueda Inteligente de Leyes</h2>
+        <p>Artículos, delitos y legislación vigente</p>
+      </div>
+      <div class="search-box">
+        <div class="input-group mb-3">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Ej: extorsión, homicidio, drogas, tránsito..." onkeydown="if(event.key==='Enter')doSearch()"/>
+          <button class="btn btn-primary" onclick="doSearch()">Buscar</button>
+        </div>
+        <div class="tag-cloud">
+          <span class="tag" onclick="doSearchTag('Hurto')">Hurto</span>
+          <span class="tag" onclick="doSearchTag('Extorsión')">Extorsión</span>
+          <span class="tag" onclick="doSearchTag('Homicidio')">Homicidio</span>
+          <span class="tag" onclick="doSearchTag('Violencia intrafamiliar')">Violencia intrafamiliar</span>
+          <span class="tag" onclick="doSearchTag('Drogas')">Drogas</span>
+          <span class="tag" onclick="doSearchTag('Armas')">Armas</span>
+          <span class="tag" onclick="doSearchTag('Conducción peligrosa')">Tránsito</span>
+          <span class="tag" onclick="doSearchTag('Robo')">Robo</span>
+          <span class="tag" onclick="doSearchTag('Violación')">Delitos sexuales</span>
+          <span class="tag" onclick="doSearchTag('Terrorismo')">Terrorismo</span>
+        </div>
+      </div>
+      <div id="searchResults" class="results-area mt-3"></div>
+    </section>
+
+    <!-- ── 3. COMPARAR LEYES ── -->
+    <section id="sec-comparar" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-intersect"></i> Comparar Leyes</h2>
+        <p>Compare dos leyes o artículos para entender diferencias y similitudes</p>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <label class="fw-bold mb-2 d-block">Ley / Artículo A</label>
+          <textarea id="compA" class="form-control" rows="4" placeholder="Ej: Art. 128 Código Penal – Homicidio simple&#10;o escriba el texto completo..."></textarea>
+        </div>
+        <div class="compare-vs"><span>VS</span></div>
+        <div class="compare-col">
+          <label class="fw-bold mb-2 d-block">Ley / Artículo B</label>
+          <textarea id="compB" class="form-control" rows="4" placeholder="Ej: Art. 129 Código Penal – Homicidio agravado&#10;o escriba el texto completo..."></textarea>
+        </div>
+      </div>
+      <button class="btn btn-primary mt-3 w-100" onclick="compararLeyes()">
+        <i class="bi bi-intersect me-2"></i>Comparar con IA
+      </button>
+      <div id="compareResult" class="mt-4"></div>
+    </section>
+
+    <!-- ── 4. RESUMIR LEY ── -->
+    <section id="sec-resumen" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-file-text"></i> Resumen Automático de Leyes</h2>
+        <p>Pegue o escriba el texto legal y obtenga un resumen claro</p>
+      </div>
+      <div class="card-panel">
+        <div class="mb-3">
+          <label class="fw-bold">Texto legal a resumir</label>
+          <textarea id="textoResumen" class="form-control mt-2" rows="6" placeholder="Pegue aquí el artículo, ley o texto legal que desea resumir...&#10;&#10;Ej: TÍTULO II - DELITOS CONTRA LA VIDA Art. 128.- El que matare a otro será sancionado con prisión de diez a veinte años..."></textarea>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-primary" onclick="resumirLey('simple')"><i class="bi bi-file-text me-1"></i>Resumen sencillo</button>
+          <button class="btn btn-outline-primary" onclick="resumirLey('agente')"><i class="bi bi-person-badge me-1"></i>Para agente de campo</button>
+          <button class="btn btn-outline-secondary" onclick="resumirLey('completo')"><i class="bi bi-list-ul me-1"></i>Análisis completo</button>
+        </div>
+      </div>
+      <div id="resumenResult" class="mt-4"></div>
+    </section>
+
+    <!-- ── 5. ESCANEAR DOCUMENTO ── -->
+    <section id="sec-camara" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-camera"></i> Escanear Documento Legal</h2>
+        <p>Use la cámara o suba una foto para analizar documentos legales</p>
+      </div>
+      <div class="cam-area">
+        <div class="cam-upload-zone" id="camZone" onclick="document.getElementById('camInput').click()" ondrop="handleDrop(event)" ondragover="event.preventDefault()">
+          <i class="bi bi-camera-fill cam-icon"></i>
+          <p>Toque para tomar foto o subir imagen</p>
+          <small>JPG, PNG, PDF · Documentos, actas, artículos impresos</small>
+          <input type="file" id="camInput" accept="image/*" capture="environment" onchange="handleCamFile(event)" style="display:none"/>
+        </div>
+        <div id="camPreview" class="cam-preview" style="display:none">
+          <img id="camImg" src="" alt="Documento" class="cam-img-preview"/>
+          <div class="cam-actions">
+            <button class="btn btn-primary" onclick="analizarDocumento()"><i class="bi bi-search me-2"></i>Analizar con IA</button>
+            <button class="btn btn-outline-secondary" onclick="resetCam()"><i class="bi bi-x me-2"></i>Otra imagen</button>
+          </div>
+        </div>
+        <div id="camResult" class="mt-3"></div>
+      </div>
+    </section>
+
+    <!-- ── 6. EMERGENCIA ── -->
+    <section id="sec-emergencia" class="sec">
+      <div class="sec-header emerg-header">
+        <h2><i class="bi bi-exclamation-octagon-fill"></i> Modo Emergencia</h2>
+        <p>Protocolos inmediatos para situaciones críticas</p>
+      </div>
+      <div class="emerg-grid">
+        <button class="emerg-btn e-homicidio"  onclick="protocolo('homicidio')"><i class="bi bi-exclamation-triangle-fill"></i><span>Homicidio</span></button>
+        <button class="emerg-btn e-transito"   onclick="protocolo('transito')"><i class="bi bi-car-front-fill"></i><span>Accidente Tránsito</span></button>
+        <button class="emerg-btn e-violencia"  onclick="protocolo('violencia')"><i class="bi bi-heart-pulse-fill"></i><span>Violencia Doméstica</span></button>
+        <button class="emerg-btn e-flagrancia" onclick="protocolo('flagrancia')"><i class="bi bi-person-fill-lock"></i><span>Captura Flagrancia</span></button>
+        <button class="emerg-btn e-extorsion"  onclick="protocolo('extorsion')"><i class="bi bi-telephone-fill"></i><span>Extorsión</span></button>
+        <button class="emerg-btn e-drogas"     onclick="protocolo('drogas')"><i class="bi bi-capsule-pill"></i><span>Drogas</span></button>
+        <button class="emerg-btn e-armas"      onclick="protocolo('armas')"><i class="bi bi-bullseye"></i><span>Armas Ilegales</span></button>
+        <button class="emerg-btn e-menor"      onclick="protocolo('menor')"><i class="bi bi-person-fill-exclamation"></i><span>Menor Infractor</span></button>
+      </div>
+      <div id="protResult" class="mt-4"></div>
+    </section>
+
+    <!-- ── 7. INFORMES ── -->
+    <section id="sec-informes" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-file-earmark-text"></i> Generador de Informes</h2>
+        <p>Actas, informes y reportes oficiales automáticos</p>
+      </div>
+      <div class="card-panel">
+        <div class="row mb-3">
+          <div class="col-6"><label class="form-label fw-bold">Tipo</label>
+            <select id="infoTipo" class="form-select">
+              <option>Acta de detención</option>
+              <option>Informe policial</option>
+              <option>Reporte preliminar</option>
+              <option>Resumen de incidente</option>
+              <option>Denuncia formal</option>
+            </select>
+          </div>
+          <div class="col-6"><label class="form-label fw-bold">N° Expediente</label>
+            <input type="text" id="infoExp" class="form-control" placeholder="PNC-2025-00123"/>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-6"><label class="form-label fw-bold">Agente</label>
+            <input type="text" id="infoAgente" class="form-control" placeholder="Nombre completo"/>
+          </div>
+          <div class="col-6"><label class="form-label fw-bold">Unidad</label>
+            <input type="text" id="infoUnidad" class="form-control" placeholder="División..."/>
+          </div>
+        </div>
+        <div class="mb-3"><label class="form-label fw-bold">Descripción del hecho</label>
+          <textarea id="infoHecho" class="form-control" rows="4" placeholder="Describa detalladamente los hechos..."></textarea>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+          <button class="btn btn-primary" onclick="genInforme()"><i class="bi bi-file-earmark-check me-1"></i>Generar</button>
+          <button class="btn btn-outline-secondary" id="btnPDF" onclick="exportPDF()" style="display:none"><i class="bi bi-file-earmark-pdf me-1"></i>PDF</button>
+        </div>
+      </div>
+      <div id="infoResult" class="mt-4"></div>
+    </section>
+
+    <!-- ── 8. FAVORITOS ── -->
+    <section id="sec-favoritos" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-star-fill"></i> Mis Favoritos</h2>
+        <p>Leyes y artículos guardados para acceso rápido</p>
+      </div>
+      <div id="favList" class="fav-list"></div>
+      <div id="favEmpty" class="empty-state">
+        <i class="bi bi-star"></i>
+        <p>No tiene favoritos guardados.</p>
+        <small>Guarde leyes desde la búsqueda tocando ⭐</small>
+      </div>
+    </section>
+
+    <!-- ── 9. HISTORIAL ── -->
+    <section id="sec-historial" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-clock-history"></i> Historial de Consultas</h2>
+        <p>Sus últimas 50 consultas</p>
+      </div>
+      <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-sm btn-outline-danger" onclick="clearHistory()"><i class="bi bi-trash me-1"></i>Limpiar historial</button>
+      </div>
+      <div id="histList" class="hist-list"></div>
+      <div id="histEmpty" class="empty-state" style="display:none">
+        <i class="bi bi-clock"></i>
+        <p>No hay consultas en el historial.</p>
+      </div>
+    </section>
+
+    <!-- ── 10. OFFLINE ── -->
+    <section id="sec-offline" class="sec">
+      <div class="sec-header">
+        <h2><i class="bi bi-wifi-off"></i> Leyes Offline</h2>
+        <p>Acceso sin internet a las leyes más importantes</p>
+      </div>
+      <div class="offline-grid" id="offlineGrid"></div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAV (móvil) -->
+  <nav class="bottom-nav">
+    <button class="bn-btn active" onclick="showSection('chat')" data-bn="chat"><i class="bi bi-chat-dots-fill"></i><span>Chat</span></button>
+    <button class="bn-btn" onclick="showSection('buscar')" data-bn="buscar"><i class="bi bi-search"></i><span>Buscar</span></button>
+    <button class="bn-btn bn-emerg" onclick="showSection('emergencia')" data-bn="emergencia"><i class="bi bi-exclamation-octagon-fill"></i><span>SOS</span></button>
+    <button class="bn-btn" onclick="showSection('favoritos')" data-bn="favoritos"><i class="bi bi-star"></i><span>Fav.</span></button>
+    <button class="bn-btn" onclick="showSection('historial')" data-bn="historial"><i class="bi bi-clock-history"></i><span>Historial</span></button>
+  </nav>
+</div>
+
+<!-- LOADING -->
+<div id="loadingOv" class="loading-ov" style="display:none">
+  <div class="loading-box">
+    <div class="spinner-border text-primary mb-3"></div>
+    <p id="loadTxt">Consultando Gemini AI...</p>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999">
+  <div id="appToast" class="toast align-items-center border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMsg"></div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
