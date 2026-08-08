@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NetBeans Ant Build – LexSV AI -->
+<project name="LexSV-AI" default="default" basedir=".">
+    <description>LexSV AI – Asistente Jurídico Inteligente para El Salvador</description>
+
+    <import file="nbproject/build-impl.xml" optional="true"/>
+
+    <target name="default" depends="-check-nb-platform-home,-init-macrodef-nb,-init-well-known-locs" if="have.nb.platform.home">
+        <echo message="Iniciando LexSV AI..."/>
+    </target>
+</project>

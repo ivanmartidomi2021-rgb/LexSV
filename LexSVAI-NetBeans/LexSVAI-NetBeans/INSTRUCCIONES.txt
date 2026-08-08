@@ -1,0 +1,111 @@
+╔══════════════════════════════════════════════════════════════╗
+║          LexSV AI – Asistente Jurídico Inteligente           ║
+║          Proyecto para Apache NetBeans                       ║
+║          Desarrollado por: Iván Alberson Martínez            ║
+╚══════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PASO 1 ─ PONER SU CLAVE GEMINI (OBLIGATORIO)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Obtenga su clave GRATIS en:
+     https://aistudio.google.com/app/apikey
+
+  2. Abra el archivo:
+     public_html/js/app.js
+
+  3. Busque la línea 11 (al inicio del archivo):
+     const GEMINI_KEY = 'AIzaSyAQ...';
+
+  4. Reemplace con su clave:
+     const GEMINI_KEY = 'AIzaSy_SU_CLAVE_REAL_AQUI';
+
+  5. Guarde el archivo (Ctrl+S)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ PASO 2 ─ ABRIR EN APACHE NETBEANS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Abra Apache NetBeans
+
+  2. Menú: File → Open Project
+
+  3. Navegue hasta esta carpeta: LexSVAI-NetBeans
+     (donde está este archivo INSTRUCCIONES.txt)
+
+  4. Haga clic en "Open Project"
+     NetBeans reconocerá el proyecto automáticamente ✅
+
+  5. Presione el botón ▶ (Run Project) o F6
+
+  6. Se abrirá el navegador con la aplicación en:
+     http://localhost:PORT/index.html
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ALTERNATIVA ─ ABRIR SIN NETBEANS (XAMPP/WAMP)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Copie la carpeta "public_html" a:
+     C:\xampp\htdocs\lexsv-ai\   (XAMPP)
+     o
+     C:\wamp64\www\lexsv-ai\     (WAMP)
+
+  2. Inicie Apache desde el panel de XAMPP/WAMP
+
+  3. Abra en el navegador:
+     http://localhost/lexsv-ai/
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ ESTRUCTURA DEL PROYECTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  LexSVAI-NetBeans/
+  ├── INSTRUCCIONES.txt         ← Este archivo
+  ├── build.xml                 ← Configuración NetBeans
+  ├── nbproject/
+  │   ├── project.xml           ← Tipo de proyecto HTML5
+  │   └── project.properties   ← Propiedades del proyecto
+  └── public_html/             ← TODO EL CÓDIGO AQUÍ
+      ├── index.html            ← Página principal
+      ├── manifest.json         ← Config PWA
+      ├── sw.js                 ← Service Worker (offline)
+      ├── css/
+      │   └── style.css         ← Estilos
+      ├── js/
+      │   └── app.js            ← ⚠️ PONER CLAVE GEMINI AQUÍ
+      └── icons/
+          ├── icon-192.png
+          ├── icon-512.png
+          ├── apple-touch-icon.png
+          └── favicon.ico
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ FUNCIONALIDADES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✅ Chat Legal con Gemini AI
+  ✅ Búsqueda inteligente de leyes
+  ✅ Comparar dos leyes
+  ✅ Resumir texto legal (3 modos)
+  ✅ Escanear documentos con cámara
+  ✅ Modo Emergencia (8 protocolos)
+  ✅ Generador de informes + PDF
+  ✅ Favoritos guardados
+  ✅ Historial de 50 consultas
+  ✅ Leyes offline sin internet
+  ✅ Reconocimiento de voz
+  ✅ PWA instalable en celular
+  ✅ Roles: PNC, FGR, Tránsito, FAES, Juez, Abogado, Estudiante
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ USUARIOS DE PRUEBA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Puede usar CUALQUIER credencial. Ej:
+  Usuario:    agente01
+  Contraseña: cualquiera
+  Institución: la que corresponda
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  LexSV AI v3.0 · 2025 · Iván Alberson Martínez
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
